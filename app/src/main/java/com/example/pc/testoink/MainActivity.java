@@ -1,13 +1,19 @@
 package com.example.pc.testoink;
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +29,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     private static MainActivity instance;
 
 
+
+    String remainMoney; // 남은돈
     String SetDate; // 선택 날짜 설정
 
     SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-M-d", Locale.KOREA);
@@ -74,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
          /////db///////////
 
         Date dd=new Date();
-        SetDate=transFormat.format(dd);;
+        SetDate=transFormat.format(dd);
         mIncExpList = (ListView) findViewById(R.id.list_use);
         myRealm = Realm.getInstance(MainActivity.this);
         instance = this;
@@ -97,12 +106,12 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        getDailyMoney();
         // 달성률 클릭시
         mTxtPercent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 일일설정액 - 사용금액 = 남은금액
+                // 일일설정액 - 사용금액 = 남은금엑
             }
         });
 
@@ -146,7 +155,38 @@ public class MainActivity extends AppCompatActivity {
 
     } // end onCreate
 
+    //일일설정약 db에서 데이터 가져오기
+    private void getDailyMoney() {
 
+        try {
+            Date d = new SimpleDateFormat("yyyy-M-d").parse(SetDate);
+            Log.e("ee", d.toString() + "날짜 date변");
+
+            RealmResults<DailyMoneyModel> results = myRealm.where(DailyMoneyModel.class)
+                    .lessThanOrEqualTo("startDate", d)
+                    .greaterThanOrEqualTo("endDate", d)
+                    .findAll();
+            //        Log.e("ee", results.get(results.size()-1).getEndDate());
+            myRealm.beginTransaction();
+
+            if (results.size() > 0) {
+                String string = Integer.toString(results.get(0).getMoney_set() - money_sum);
+                Log.e("money", "일일설정액 - 선택한 날짜 " + string);
+                 /* 일일 설정액 초과시 알림*/
+                if(Integer.valueOf(string)<0){
+                    NotificationSomethings();
+                }
+
+                remainMoney=Integer.toString((results.get(0).getMoney_set()-money_sum)/results.get(0).getMoney_set()*100);
+                mTxtPercent.setText(remainMoney);
+            }
+            myRealm.commitTransaction();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+    //일일설정약 db에서 데이터 가져오기 , 빼기
 
 ///--------------------db관련 함수들-----------------------
 
@@ -443,5 +483,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     ///--------------------db함수 끝-------------------
+
+    //푸시알림 설정
+    public void NotificationSomethings(){
+        Resources res=getResources();
+        NotificationCompat.Builder builder=new NotificationCompat.Builder(this);
+        builder.setContentTitle("일일설정액 초과!")
+                .setContentText("그만 써!")
+                .setTicker("일일 설정액 초과!")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(res,R.mipmap.ic_launcher))
+                .setAutoCancel(true)
+                .setWhen(System.currentTimeMillis())
+                .setDefaults(Notification.DEFAULT_ALL);
+        if(android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP){
+            builder.setCategory(Notification.CATEGORY_MESSAGE)
+                    .setPriority(Notification.PRIORITY_HIGH)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC);
+        }
+
+        NotificationManager nm=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(20,builder.build());
+    }
+
 
 }// end MainActivity

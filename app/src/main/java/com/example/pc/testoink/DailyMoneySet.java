@@ -23,12 +23,6 @@ import java.util.Locale;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-/**
- * Created by jihyun on 2017-04-30.
- */
-
-
-
 
 public class DailyMoneySet extends AppCompatActivity implements View.OnClickListener{
 
@@ -36,6 +30,8 @@ public class DailyMoneySet extends AppCompatActivity implements View.OnClickList
     private Realm mRealm;
 
     private Button setbutton;
+    private Button cancelbutton;
+
     private DatePickerDialog startDatePickerDialog;
     private DatePickerDialog endDatePickerDialog;
     private SimpleDateFormat dateFormatter;
@@ -63,8 +59,10 @@ public class DailyMoneySet extends AppCompatActivity implements View.OnClickList
         startDate.setInputType(InputType.TYPE_NULL);
         startDate.requestFocus();
         endDate.setInputType(InputType.TYPE_NULL);
+
         startDate.setOnClickListener(this);
         endDate.setOnClickListener(this);
+
         Calendar newCalendar = Calendar.getInstance();
         startDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
@@ -90,7 +88,8 @@ public class DailyMoneySet extends AppCompatActivity implements View.OnClickList
 
 
 
-    }
+    } //end oncreate
+
     //설정버튼 이벤트
     public void btnSet(View v){
 
@@ -227,7 +226,8 @@ public class DailyMoneySet extends AppCompatActivity implements View.OnClickList
 
         }
 
-    }
+    } // end btnset
+
 
 
     @Override
