@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,13 +50,15 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mImgScrEvent; // 스크롤 이벤트 버튼
     private FloatingActionButton mBtnAddUpdate; // 플로팅 __ click 수입,지출 기록 다이얼로그
     private FloatingActionButton mBtnMoneySet; // 플로팅 __ click 일일 지출액 설정
+
   /*  private CustomCalendarDialog mCalendarDialog= new CustomCalendarDialog(this);
 */
     private ScrollView scrollView;
     private AlertDialog.Builder subDialog;
 
     /* 어댑터 */
-    private ArrayAdapter mAdapter;
+    private Adapter mAdapter;
+    private DataDetailsAdapter dataAdapter;
 
     /* DB */
     public static int id = 0;
@@ -94,6 +98,9 @@ public class MainActivity extends AppCompatActivity {
         mBtnAddUpdate = (FloatingActionButton) findViewById(R.id.btn_add);
         mBtnMoneySet=(FloatingActionButton)findViewById(R.id.btn_dailymoney);
 
+        dataAdapter=new DataDetailsAdapter(this,dataDetailsModelArrayList);
+        mIncExpList.setAdapter(dataAdapter);
+
         scrollView = (ScrollView) findViewById(R.id.ScrollView);
 
         mBtnMoneySet.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+
+
         getDailyMoney();
         // 달성률 클릭시
         mTxtPercent.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
 
         /* 스트롤 이벤트버튼 클릭시 */
         mImgScrEvent.setOnClickListener(new View.OnClickListener() {
@@ -243,6 +255,8 @@ public class MainActivity extends AppCompatActivity {
         myRealm.commitTransaction();
         return results.get(0);
     } // end DateDetailsModel
+
+    /* 일일 설정액 dialog*/
 
    /* 데이터 삽입함수 */
 

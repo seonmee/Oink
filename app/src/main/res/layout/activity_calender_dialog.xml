@@ -102,19 +102,13 @@
             android:layout_weight="5"
             android:orientation="vertical">
 
-            <GridView
-                android:id="@+id/grid_day"
-                android:layout_width="match_parent"
-                android:layout_height="9dp"
-                android:layout_weight="1"
-                android:numColumns="7" />
-
-            <GridView
-                android:id="@+id/grid_date"
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_calender"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="10"
-                android:numColumns="7" />
+                android:layout_weight="11">
+
+            </android.support.v4.view.ViewPager>
 
         </LinearLayout>
 
