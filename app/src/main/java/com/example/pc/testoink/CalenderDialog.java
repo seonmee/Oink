@@ -18,17 +18,12 @@ public class CalenderDialog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calender_dialog);
 
-        year=(TextView) findViewById(R.id.txt_year);
-        month=(TextView) findViewById(R.id.txt_month);
+
 
         vp=(ViewPager)findViewById(R.id.vp_calender);
         vp.setAdapter(new pageAdapter(getSupportFragmentManager()));
         vp.setCurrentItem(0);
 
-        monthAdapter=new MonthAdapter(this);
-
-        year.setText(Integer.toString(monthAdapter.getCurrentYear()));
-        month.setText(Integer.toString(monthAdapter.getCurrentMonth()));
 
     }
 }
