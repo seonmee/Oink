@@ -50,11 +50,14 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mImgScrEvent; // 스크롤 이벤트 버튼
     private FloatingActionButton mBtnAddUpdate; // 플로팅 __ click 수입,지출 기록 다이얼로그
     private FloatingActionButton mBtnMoneySet; // 플로팅 __ click 일일 지출액 설정
-
-  /*  private CustomCalendarDialog mCalendarDialog= new CustomCalendarDialog(this);
+    private TextView dailyset;
+    private TextView remMoney;
+    
+    /*  private CustomCalendarDialog mCalendarDialog= new CustomCalendarDialog(this);
 */
     private ScrollView scrollView;
     private AlertDialog.Builder subDialog;
+    
 
     /* 어댑터 */
     private Adapter mAdapter;
@@ -68,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
     private DataDetailsAdapter dataDetailsAdapter;
     private int money_sum=0; //추가
     private static MainActivity instance;
-
-
 
     String remainMoney; // 남은돈
     String SetDate; // 선택 날짜 설정
@@ -91,18 +92,49 @@ public class MainActivity extends AppCompatActivity {
         mIncExpList = (ListView) findViewById(R.id.list_use);
         myRealm = Realm.getInstance(MainActivity.this);
         instance = this;
-
+        
         mTxtPercent = (TextView) findViewById(R.id.txt_percent);
         mTxtCalcDate = (TextView) findViewById(R.id.txt_calendarDate);
         mImgScrEvent = (ImageView) findViewById(R.id.img_scrollEvent);
         mBtnAddUpdate = (FloatingActionButton) findViewById(R.id.btn_add);
         mBtnMoneySet=(FloatingActionButton)findViewById(R.id.btn_dailymoney);
+        
+        dailyset=(TextView)findViewById(R.id.txt_dailySet);
+        remMoney=(TextView)findViewById(R.id.txt_remain);
 
         dataAdapter=new DataDetailsAdapter(this,dataDetailsModelArrayList);
         mIncExpList.setAdapter(dataAdapter);
 
         scrollView = (ScrollView) findViewById(R.id.ScrollView);
+        int setmoney = 0;
+        /* db의 데이터  가져오기 */
+        try {
+            Date d = new SimpleDateFormat("yyyy-M-d").parse(SetDate);
 
+            RealmResults<DailyMoneyModel> results = myRealm.where(DailyMoneyModel.class)
+                    .lessThanOrEqualTo("startDate", d)
+                    .greaterThanOrEqualTo("endDate", d)
+                    .findAll();
+            //        Log.e("ee", results.get(results.size()-1).getEndDate());
+            myRealm.beginTransaction();
+            setmoney=results.get(0).getMoney_set();
+            if (results.size() > 0) {
+                String string = Integer.toString(setmoney - money_sum);
+                Log.e("money", "일일설정액 - 선택한 날짜 " + string);
+                 /* 일일 설정액 초과시 알림*/
+                if(Integer.valueOf(string)<0) {
+                    NotificationSomethings();
+                }
+
+                remainMoney=Integer.toString((setmoney-money_sum)/results.get(0).getMoney_set()*100);
+                mTxtPercent.setText(remainMoney);
+            }
+            myRealm.commitTransaction();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
+        
         mBtnMoneySet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,9 +147,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-        getDailyMoney();
         // 달성률 클릭시
         mTxtPercent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,41 +193,13 @@ public class MainActivity extends AppCompatActivity {
                 addOrUpdatePersonDetailsDialog(null, -1);
             }
         });
+        
+        /* */
+        dailyset.setText(Integer.toString(setmoney));
+        remMoney.setText(Integer.toString(setmoney-money_sum));
 
     } // end onCreate
 
-    //일일설정약 db에서 데이터 가져오기
-    private void getDailyMoney() {
-
-        try {
-            Date d = new SimpleDateFormat("yyyy-M-d").parse(SetDate);
-            Log.e("ee", d.toString() + "날짜 date변");
-
-            RealmResults<DailyMoneyModel> results = myRealm.where(DailyMoneyModel.class)
-                    .lessThanOrEqualTo("startDate", d)
-                    .greaterThanOrEqualTo("endDate", d)
-                    .findAll();
-            //        Log.e("ee", results.get(results.size()-1).getEndDate());
-            myRealm.beginTransaction();
-
-            if (results.size() > 0) {
-                String string = Integer.toString(results.get(0).getMoney_set() - money_sum);
-                Log.e("money", "일일설정액 - 선택한 날짜 " + string);
-                 /* 일일 설정액 초과시 알림*/
-                if(Integer.valueOf(string)<0){
-                    NotificationSomethings();
-                }
-
-                remainMoney=Integer.toString((results.get(0).getMoney_set()-money_sum)/results.get(0).getMoney_set()*100);
-                mTxtPercent.setText(remainMoney);
-            }
-            myRealm.commitTransaction();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-    }
-    //일일설정약 db에서 데이터 가져오기 , 빼기
 
 ///--------------------db관련 함수들-----------------------
 
