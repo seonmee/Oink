@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.RelativeLayout;
 
 /**
@@ -19,6 +20,11 @@ public class SecondFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = (View) inflater.inflate(R.layout.fragment_second, container, false);
+        GridView calender = (GridView)view.findViewById(R.id.grid_dateA);
+        MonthAdapter monthAdapter=new MonthAdapter(getActivity());
+        monthAdapter.setNextMonth();
+        calender.setAdapter(monthAdapter);
+
         return view;
     }
 }
