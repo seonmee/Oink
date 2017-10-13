@@ -235,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
         //그 날에 해당하는 돈 가져오는 코드
         money_sum = 0;
         for (int j = 0; j < dataDetailsModelArrayList.size(); j++) {
+            if(dataDetailsModelArrayList.get(j).isInOrOut())
             money_sum += dataDetailsModelArrayList.get(j).getPrice();
 
         }
