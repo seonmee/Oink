@@ -232,11 +232,14 @@ public class MainActivity extends AppCompatActivity {
         myRealm.commitTransaction();
         dataDetailsAdapter.notifyDataSetChanged();
 
-        //그 날에 해당하는 돈 가져오는 코드
+        // 남은 금액 계산
         money_sum = 0;
         for (int j = 0; j < dataDetailsModelArrayList.size(); j++) {
-            if(dataDetailsModelArrayList.get(j).isInOrOut())
-            money_sum += dataDetailsModelArrayList.get(j).getPrice();
+            if(dataDetailsModelArrayList.get(j).isInOrOut()) {
+                money_sum += dataDetailsModelArrayList.get(j).getPrice();
+            } else{
+                money_sum -= dataDetailsModelArrayList.get(j).getPrice();
+            }
 
         }
         String string = Integer.toString(money_sum);
