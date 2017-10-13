@@ -17,6 +17,7 @@ public class CalenderDialog extends AppCompatActivity {
     private ImageView pig;
     private ViewPager vp;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
