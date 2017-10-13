@@ -117,8 +117,9 @@ public class MainActivity extends AppCompatActivity {
                     .findAll();
             //        Log.e("ee", results.get(results.size()-1).getEndDate());
             myRealm.beginTransaction();
-            setmoney=results.get(0).getMoney_set();
+
             if (results.size() > 0) {
+                setmoney=results.get(0).getMoney_set();
                 String string = Integer.toString(setmoney - money_sum);
                 Log.e("money", "일일설정액 - 선택한 날짜 " + string);
                  /* 일일 설정액 초과시 알림*/
