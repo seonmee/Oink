@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private DataDetailsAdapter dataAdapter;
 
     /* DB */
-    public static int id = 0;
+    public static int id = 1;
     private Realm myRealm;
     private ListView mIncExpList;
     private static ArrayList<DataDetailsModel> dataDetailsModelArrayList = new ArrayList<>();
@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
         mIncExpList = (ListView) findViewById(R.id.list_use);
         myRealm = Realm.getInstance(MainActivity.this);
         instance = this;
+        setPersonDetailsAdapter();
+        getAllUsers();
         
         mTxtPercent = (TextView) findViewById(R.id.txt_percent);
         mTxtCalcDate = (TextView) findViewById(R.id.txt_calendarDate);
@@ -268,34 +270,16 @@ public class MainActivity extends AppCompatActivity {
         myRealm.beginTransaction();
 
         DataDetailsModel dataDetailsModel = myRealm.createObject(DataDetailsModel.class);
-        dataDetailsModel.setId(id + dataDetailsModelArrayList.size()); //id+남아있는리스트개수를 해줘야해
+        dataDetailsModel.setId(id ); //id+남아있는리스트개수를 해줘야해
         dataDetailsModel.setName(model.getName());
         dataDetailsModel.setPrice(model.getPrice());
         dataDetailsModel.setDate(model.getDate());
-        dataDetailsModel.setInOrOut(false); //수입
+        dataDetailsModel.setInOrOut(model.isInOrOut()); //수입
         dataDetailsModelArrayList.add(dataDetailsModel);
         myRealm.commitTransaction();
         dataDetailsAdapter.notifyDataSetChanged();
         id++;
     } // end addDataToRealm
-
-
-    private void addDataToRealm2(DataDetailsModel model) {
-        Log.e(LOG_TAG, "DataList.addDataToRealm2");
-
-        myRealm.beginTransaction();
-
-        DataDetailsModel dataDetailsModel2 = myRealm.createObject(DataDetailsModel.class);
-        dataDetailsModel2.setId(id + dataDetailsModelArrayList.size()); //id+남아있는리스트개수를 해줘야해
-        dataDetailsModel2.setName(model.getName());
-        dataDetailsModel2.setPrice(model.getPrice());
-        dataDetailsModel2.setDate(model.getDate());
-        dataDetailsModel2.setInOrOut(true); //수입
-        dataDetailsModelArrayList.add(dataDetailsModel2);
-        myRealm.commitTransaction();
-        dataDetailsAdapter.notifyDataSetChanged();
-        id++;
-    }// end addDataToRealm2
 
     /* 데이터 업데이트 함수 (수정) */
     public void updatePersonDetails(DataDetailsModel model, int position, int personID) {
@@ -394,6 +378,7 @@ public class MainActivity extends AppCompatActivity {
                         dataDetailsModel.setName(etAddCategory.getText().toString());
                         dataDetailsModel.setPrice(Integer.parseInt(etAddIncome.getText().toString()));
                         dataDetailsModel.setDate(transFormat.format(new Date())); //date추가
+                        dataDetailsModel.setInOrOut(false);
 
                         Log.d("ee", dataDetailsModel.getDate().toString());
 
@@ -416,7 +401,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("eeeeeeeeeeeeeeeeeeee", dataDetailsModel.getDate().toString());
 
                         if (model == null) {//데이터베이스를 새로 생성하겠다!!
-                            addDataToRealm2(dataDetailsModel);
+                            addDataToRealm(dataDetailsModel);
                         } else//기존에 있던 데이터를 업데이트하겠다!!
                             updatePersonDetails(dataDetailsModel, position, model.getId());
                         dialog.cancel();
@@ -429,64 +414,6 @@ public class MainActivity extends AppCompatActivity {
 
     }// end addOrUpdate
 
-    ////////////////////////////////////////////////////////////////이게 뭐야???????????????
-    public void addOrUpdatePersonDetailsDialog22(final DataDetailsModel model,final int position) {
-
-        /* subdialog */
-        Log.e(LOG_TAG, "DataList.addOrUpdatePersonDetailsDialog");
-        subDialog = new AlertDialog.Builder(MainActivity.this)
-                .setMessage("모두 입력해주세요")
-                .setCancelable(false)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dlg2, int which) {
-                        dlg2.cancel();
-                    }
-                });
-
-        /* maindialog */
-        LayoutInflater li = LayoutInflater.from(MainActivity.this);
-        View promptsView = li.inflate(R.layout.income_dialog, null);
-        AlertDialog.Builder mainDialog = new AlertDialog.Builder(MainActivity.this);
-        mainDialog.setView(promptsView);
-        final EditText etAddPersonName = (EditText) promptsView.findViewById(R.id.setCategory);
-        final EditText etAddPersonAge = (EditText) promptsView.findViewById(R.id.setIncome);
-        if (model != null) {
-            etAddPersonName.setText(model.getName());
-            etAddPersonAge.setText(String.valueOf(model.getPrice()));
-        }
-        mainDialog.setCancelable(false)
-                .setPositiveButton("Ok", null)
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog dialog = mainDialog.create();
-        dialog.show();
-        Button b = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!Utility.isBlankField(etAddPersonName) && !Utility.isBlankField(etAddPersonAge)) {
-                    DataDetailsModel dataDetailsModel = new DataDetailsModel();
-                    dataDetailsModel.setName(etAddPersonName.getText().toString());
-                    dataDetailsModel.setPrice(Integer.parseInt(etAddPersonAge.getText().toString()));
-                    //dataDetailsModel.setDate(new Date());
-                    dataDetailsModel.setMoney_set(model.getMoney_set());
-                    if (model == null)
-                        Log.d("ee","nono");
-                        // addDataToRealm(dataDetailsModel);
-                    else
-                        updatePersonDetails(dataDetailsModel, position, model.getId());
-                    dialog.cancel();
-                } else {
-                    subDialog.show();
-                }
-            }
-        });
-    }
 
 
     /* db삭제 */
