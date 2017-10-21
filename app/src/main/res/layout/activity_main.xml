@@ -12,18 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btn_dailymoney"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="20dp"
-            android:clickable="true"
-            android:visibility="visible"
-            app:fabSize="mini"
-            app:srcCompat="@drawable/main_addbutton" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         mTxtCalcDate = (TextView) findViewById(R.id.txt_calendarDate);
         mImgScrEvent = (ImageView) findViewById(R.id.img_scrollEvent);
         mBtnAddUpdate = (FloatingActionButton) findViewById(R.id.btn_add);
-        mBtnMoneySet=(FloatingActionButton)findViewById(R.id.btn_dailymoney);
         
         dailyset=(TextView)findViewById(R.id.txt_dailySet);
         remMoney=(TextView)findViewById(R.id.txt_remain);
@@ -137,18 +136,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        
-        
-        mBtnMoneySet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 일일 지출액 설정
-                Intent intent = new Intent(getApplicationContext(),DailyMoneySet.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            }
-        });
+
 
 
         // 달성률 클릭시

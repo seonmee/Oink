@@ -24,10 +24,11 @@ public class CalenderDialog extends AppCompatActivity {
 
         pig=(ImageView)findViewById(R.id.img_pig);
 
+        // 돼지눌렀을시 일일 설정액 설정
         pig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(),DailyMoneySet.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();

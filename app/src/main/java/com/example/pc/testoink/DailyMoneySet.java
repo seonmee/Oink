@@ -221,9 +221,9 @@ if(v.getId()==R.id.setButton) {
     }
 }else if (v.getId()==R.id.btn_can){
 
-    //메인으로 돌아가기
+    // 전화면
     Intent intent = new Intent(getApplicationContext(),//현재화면의
-            MainActivity.class);//다음 넘어갈 클래스 지정
+            CalenderDialog.class);//다음 넘어갈 클래스 지정
 
     startActivity(intent);//다음 화면으로 넘어간다
     finish();
