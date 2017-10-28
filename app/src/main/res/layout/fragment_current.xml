@@ -16,7 +16,7 @@
             android:orientation="vertical"></LinearLayout>
 
         <TextView
-            android:id="@+id/txt_year2"
+            android:id="@+id/txt_year_Current"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -36,7 +36,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/txt_month2"
+            android:id="@+id/txt_month_Current"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
@@ -64,10 +64,12 @@
 
 
 
+
     <GridView
-        android:id="@+id/grid_dateA"
+        android:id="@+id/grid_date"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
         android:numColumns="7" />
+
 </LinearLayout>

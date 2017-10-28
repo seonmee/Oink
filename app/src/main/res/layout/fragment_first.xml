@@ -60,7 +60,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1.5"
             android:orientation="vertical"></LinearLayout>
+
+
     </LinearLayout>
+
+
+
 
     <GridView
         android:id="@+id/grid_date"

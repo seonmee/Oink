@@ -2,6 +2,8 @@ package com.example.pc.testoink;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,8 @@ import android.widget.TextView;
  */
 
 public class SecondFragment extends Fragment {
+
+
     public SecondFragment() {
     }
 
@@ -22,16 +26,27 @@ public class SecondFragment extends Fragment {
         View view = (View) inflater.inflate(R.layout.fragment_second, container, false);
 
         GridView calender = (GridView)view.findViewById(R.id.grid_dateA);
-        MonthAdapter monthAdapter=new MonthAdapter(getActivity());
+        //MonthAdapter monthAdapter=new MonthAdapter(getActivity());
 
-        monthAdapter.setNextMonth();
+        CalenderDialog.monthAdapter.setNextMonth();
+        CalenderDialog.monthAdapter.notifyDataSetChanged();
 
         TextView year=(TextView) view.findViewById(R.id.txt_year2);
         TextView month=(TextView) view.findViewById(R.id.txt_month2);
 
-        year.setText(Integer.toString(monthAdapter.getCurrentYear()));
-        month.setText(Integer.toString(monthAdapter.getCurrentMonth()));
-        calender.setAdapter(monthAdapter);
+        Log.d("frag",Integer.toString(CalenderDialog.monthAdapter.getCurrentYear())
+        +"   ,   "+Integer.toString(CalenderDialog.monthAdapter.getCurrentMonth()));
+
+
+
+        year.setText(Integer.toString(CalenderDialog.monthAdapter.getCurrentYear()));
+        month.setText(Integer.toString(CalenderDialog.monthAdapter.getCurrentMonth()));
+        calender.setAdapter(CalenderDialog.monthAdapter);
+
+        Log.d("frag_txt",year.getText().toString()
+                +"   ,   "+month.getText().toString());
+
+
 
         return view;
     }

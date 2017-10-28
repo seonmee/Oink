@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -12,7 +13,7 @@ import android.widget.TextView;
 
 public class CalenderDialog extends AppCompatActivity {
 
-    private MonthAdapter monthAdapter;
+    public static MonthAdapter monthAdapter;
     private TextView month, year;
     private ImageView pig;
     private ViewPager vp;
@@ -21,6 +22,9 @@ public class CalenderDialog extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calender_dialog);
+
+        monthAdapter = new MonthAdapter(this);
+
 
         pig=(ImageView)findViewById(R.id.img_pig);
 
@@ -37,7 +41,7 @@ public class CalenderDialog extends AppCompatActivity {
 
         vp=(ViewPager)findViewById(R.id.vp_calender);
         vp.setAdapter(new pageAdapter(getSupportFragmentManager()));
-        vp.setCurrentItem(0);
+        vp.setCurrentItem(50000);
 
 
     }
