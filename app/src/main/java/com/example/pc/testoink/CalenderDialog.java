@@ -41,7 +41,7 @@ public class CalenderDialog extends AppCompatActivity {
 
         vp=(ViewPager)findViewById(R.id.vp_calender);
         vp.setAdapter(new pageAdapter(getSupportFragmentManager()));
-        vp.setCurrentItem(50000);
+        vp.setCurrentItem(5000);
 
 
     }

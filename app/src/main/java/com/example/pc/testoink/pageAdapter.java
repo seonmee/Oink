@@ -20,7 +20,7 @@ public class pageAdapter extends FragmentStatePagerAdapter {
 
         super(fm);
 
-        beforePosition = 50000;
+        beforePosition = 5000;
 
         flag = 0;
     }
@@ -71,6 +71,6 @@ public class pageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 100000;
+        return 10000;
     }
 }
