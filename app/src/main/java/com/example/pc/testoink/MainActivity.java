@@ -1,4 +1,4 @@
-package com.example.pc.testoink;
+﻿package com.example.pc.testoink;
 
 import android.app.Dialog;
 import android.app.Notification;
@@ -39,7 +39,7 @@ import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-
+//ddds
 public class MainActivity extends AppCompatActivity {
 
     final static String LOG_TAG = "myLogs";
