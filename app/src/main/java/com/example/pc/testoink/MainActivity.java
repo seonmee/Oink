@@ -1,4 +1,4 @@
-package com.example.pc.testoink;
+﻿package com.example.pc.testoink;
 
 import android.app.Dialog;
 import android.app.Notification;
@@ -39,6 +39,8 @@ import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+
+//dddd
 
 public class MainActivity extends AppCompatActivity {
 
