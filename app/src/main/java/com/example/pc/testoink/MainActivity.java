@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private ScrollView scrollView;
     private AlertDialog.Builder subDialog;
 
+<<<<<<< HEAD
     /*3d 회전*/
     private boolean isFront = true;
     private int DURATION = 500;
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
     private float centerX;
     private float centerY;
 
+=======
+>>>>>>> 1a2d0610b4f8231cb6131e07c8e314018b5e4349
 
     /* 어댑터 */
     private Adapter mAdapter;
@@ -99,10 +102,13 @@ public class MainActivity extends AppCompatActivity {
         /* 스플래쉬 화면*/
         startActivity(new Intent(MainActivity.this, Splash.class));
 
+<<<<<<< HEAD
         /*3d회전*/
         this.mContainer = (ViewGroup) findViewById(R.id.container);
         this.frontView = (LinearLayout) findViewById(R.id.imageView3);
         this.backView = (LinearLayout) findViewById(R.id.imageView4);
+=======
+>>>>>>> 1a2d0610b4f8231cb6131e07c8e314018b5e4349
         /////db///////////
 
         Date dd=new Date();
