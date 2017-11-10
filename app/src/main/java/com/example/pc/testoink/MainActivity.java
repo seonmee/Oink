@@ -1,4 +1,4 @@
-﻿package com.example.pc.testoink;
+package com.example.pc.testoink;
 
 import android.app.Dialog;
 import android.app.Notification;
@@ -54,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton mBtnMoneySet; // 플로팅 __ click 일일 지출액 설정
     private TextView dailyset;
     private TextView remMoney;
-    
+
     /*  private CustomCalendarDialog mCalendarDialog= new CustomCalendarDialog(this);
 */
     private ScrollView scrollView;
     private AlertDialog.Builder subDialog;
-    
+
 
     /* 어댑터 */
     private Adapter mAdapter;
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         /* 스플래쉬 화면*/
         startActivity(new Intent(MainActivity.this, Splash.class));
 
-         /////db///////////
+        /////db///////////
 
         Date dd=new Date();
         SetDate=transFormat.format(dd);
@@ -97,12 +97,12 @@ public class MainActivity extends AppCompatActivity {
         setPersonDetailsAdapter();
         getAllUsers();
 
-        
+
         mTxtPercent = (TextView) findViewById(R.id.txt_percent);
         mTxtCalcDate = (TextView) findViewById(R.id.txt_calendarDate);
         mImgScrEvent = (ImageView) findViewById(R.id.img_scrollEvent);
         mBtnAddUpdate = (FloatingActionButton) findViewById(R.id.btn_add);
-        
+
         dailyset=(TextView)findViewById(R.id.txt_dailySet);
         remMoney=(TextView)findViewById(R.id.txt_remain);
 
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 addOrUpdatePersonDetailsDialog(null, -1);
             }
         });
-        
+
         /* */
         dailyset.setText(Integer.toString(setmoney));
         remMoney.setText(Integer.toString(setmoney-money_sum));
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
         Log.e(LOG_TAG, "DataList.getInstance");
         return instance;
     }
-///////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////
     private void setPersonDetailsAdapter() {
         Log.e(LOG_TAG, "DataList.setPersonDetailsAdapter");
         dataDetailsAdapter = new DataDetailsAdapter(MainActivity.this, dataDetailsModelArrayList);
